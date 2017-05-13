@@ -1,3 +1,4 @@
+import operation.section.Number;
 import operation.section.Operator;
 
 import java.util.ArrayList;
@@ -12,7 +13,12 @@ public class DefaultOperator {
 
     public DefaultOperator(){
         operators = new ArrayList<>();
-        operators.add(new Operator("+", "add"));
+        operators.add(new Operator("+", "add") {
+            @Override
+            public Number function(Number num) {
+                number += num.getNumber();
+            }
+        });
         operators.add(new Operator("-", "subtract"));
         operators.add(new Operator("*", "multiply"));
         operators.add(new Operator("/", "divide"));

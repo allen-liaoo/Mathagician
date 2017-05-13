@@ -5,7 +5,7 @@ import operation.Section;
 /**
  * Created by liaoyilin on 5/12/17.
  */
-public class Operator extends Section {
+public abstract class Operator extends Section {
 
     private String name;
 
@@ -21,4 +21,7 @@ public class Operator extends Section {
     public void setName(String name) {
         this.name = name;
     }
+
+    public abstract Number function(Number num);
+
 }

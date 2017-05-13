@@ -15,8 +15,7 @@ public class Number extends Section {
     }
 
     public Number add(Number num) {
-        number += num.getNumber();
-        return this;
+
     }
 
     public Number subtract(Number num) {
