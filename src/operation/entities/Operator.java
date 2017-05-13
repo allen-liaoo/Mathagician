@@ -1,4 +1,4 @@
-package operation.section;
+package operation.entities;
 
 import operation.Section;
 
@@ -36,9 +36,9 @@ public abstract class Operator extends Section {
             throw new IllegalArgumentException(name + " operator only accept " + operandLimit + " operands as parameter. "
                     + "(Parameter passed: " + operands.length + ")");
         }
-        return function(operands);
+        return action(operands);
     }
 
-    public abstract Operand function(Operand... operands);
+    public abstract Operand action(Operand... operands);
 
 }

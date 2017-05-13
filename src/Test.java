@@ -1,5 +1,5 @@
-import operation.section.Operand;
-import operation.section.Operator;
+import operation.entities.Operand;
+import operation.entities.Operator;
 
 /**
  *
@@ -9,12 +9,12 @@ public class Test
 {
     public static void main(String[] args)
     {
-        String expression = "2*0";
+        String expression = "φ";
         System.out.println("Expression: " + expression);
         OperationBuilder operation = new OperationBuilder(expression)
             .addOperator(new Operator("!", "factorial", 1, 2) {
                 @Override
-                public Operand function(Operand... operands) {
+                public Operand action(Operand... operands) {
                     Operand op = operands[0];
                     if(op.getOperand() < 0)
                         throw new IllegalArgumentException("Operand of factorial must be greater than 0.");
@@ -28,6 +28,6 @@ public class Test
             })
             .parse();
         System.out.println("Reverse Polish: " + operation);
-        System.out.println("Eval stack: " + operation.build().eval());
+        System.out.println("Answer: " + operation.build().eval());
     }
 }

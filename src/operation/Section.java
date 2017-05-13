@@ -1,6 +1,6 @@
 package operation;
 
-import operation.section.Operator;
+import operation.entities.Operator;
 
 /**
  * Created by liaoyilin on 5/12/17.

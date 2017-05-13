@@ -1,7 +1,7 @@
 package operation;
 
-import operation.section.Operand;
-import operation.section.Operator;
+import operation.entities.Operand;
+import operation.entities.Operator;
 
 import java.util.*;
 

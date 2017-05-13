@@ -1,8 +1,9 @@
-import operation.DefaultOperator;
+import operation.DefaultPack;
 import operation.Operation;
 import operation.Section;
-import operation.section.Operand;
-import operation.section.Operator;
+import operation.entities.Constant;
+import operation.entities.Operand;
+import operation.entities.Operator;
 
 import java.util.*;
 
@@ -12,24 +13,32 @@ import java.util.*;
  */
 public class OperationBuilder {
 
+    /* Original Operation */
     private String operation;
 
+    /* Operation Content */
     private List<Section> sections;
     private Stack<Section> operatorStack;
 
+    /* Customizable */
     private HashMap<String, Operator> operators;
+    private HashMap<String, Constant> constants;
+
+    /* Default */
+    private DefaultPack defaultPack = new DefaultPack();
 
     public OperationBuilder(String operation) {
         this.operation = operation.toLowerCase();
         sections = new ArrayList<>();
         operatorStack = new Stack<>();
         operators = new HashMap<>();
-        addDefaultOperator();
+        constants = new HashMap<>();
+        addDefaultPack();
     }
 
     /**
      * Change the operation into reverse polish
-     * @return
+     * @return OperationBuilder, easier for chaining
      */
     public OperationBuilder parse() {
         StringBuilder ops = new StringBuilder(operation);
@@ -48,6 +57,8 @@ public class OperationBuilder {
                     }
                 }
                 operatorStack.push(op);
+            } else if(constants.containsKey(character)) {
+                sections.add(new Operand(constants.get(character).getValue()));
             } else {
                 throw new IllegalArgumentException("Unknown operator "+character+" at index: "+i);
             }
@@ -67,13 +78,10 @@ public class OperationBuilder {
         return new Operation(sections.toArray(new Section[sections.size()]));
     }
 
-    @Override
-    public String toString() {
-        StringBuilder output = new StringBuilder();
-        for(Section sec : sections) output.append(sec.toString()+" ");
-        return output.toString();
-    }
-
+    /**
+     * @param operators varargs of operators to be added
+     * @return OperationBuilder, easier for chaining
+     */
     public OperationBuilder addOperator(Operator... operators)
     {
         for(Operator op : operators) {
@@ -82,10 +90,29 @@ public class OperationBuilder {
         return this;
     }
 
-    private void addDefaultOperator()
+    /**
+     * @param constants varargs of constants to be added
+     * @return OperationBuilder, easier for chaining
+     */
+    public OperationBuilder addConstant(Constant... constants)
     {
-        DefaultOperator defaultOp = new DefaultOperator();
-        addOperator(defaultOp.getDefaultOperator());
+        for(Constant con : constants) {
+            for(String key : con.getKeys()) this.constants.put(key, con);
+        }
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder output = new StringBuilder();
+        for(Section sec : sections) output.append(sec.toString()).append(" ");
+        return output.toString();
+    }
+
+    private void addDefaultPack()
+    {
+        addOperator(defaultPack.getDefaultOperator().toArray(new Operator[defaultPack.getDefaultOperator().size()]));
+        addConstant(defaultPack.getDefaultConstant().toArray(new Constant[defaultPack.getDefaultConstant().size()]));
     }
 }
 
