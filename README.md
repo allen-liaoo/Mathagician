@@ -1,6 +1,6 @@
-Math Operation Evaluator and Calculator base on Shunting-yard algorithm.
-
-[Under Construction]
+#Mathagician
+Math Operation Evaluator and Calculator base on Shunting-yard algorithm. <br />
+**Under Construction**
 
 #####Features
 - Support operators: +, -, *, /
