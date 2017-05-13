@@ -7,19 +7,19 @@ import operation.section.Operator;
  */
 public abstract class Section {
 
-    private final String element;
+    private final String section;
 
-    public Section(String element) {
-        this.element = element;
+    public Section(String section) {
+        this.section = section;
     }
 
-    public String getElement() {
-        return element;
+    public String getSection() {
+        return section;
     }
 
     @Override
     public String toString() {
-        return element;
+        return section;
     }
 
     @Override
@@ -29,12 +29,12 @@ public abstract class Section {
 
         Section section = (Section) o;
 
-        return element != null ? element.equals(section.toString()) : section.element == null;
+        return this.section != null ? this.section.equals(section.toString()) : section.section == null;
     }
 
     @Override
     public int hashCode() {
-        return element != null ? element.hashCode() : 0;
+        return section != null ? section.hashCode() : 0;
     }
 
 }

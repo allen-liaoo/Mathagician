@@ -3,25 +3,28 @@ package operation.section;
 import operation.Section;
 
 /**
- * Created by liaoyilin on 5/12/17.
+ *
+ * @author Alien Ideology <alien.ideology at alien.org>
  */
 public abstract class Operator extends Section {
 
-    private String name;
+    private final String name;
+    private final int precedence;
 
-    public Operator(String element, String name) {
+    public Operator(String element, String name, int precedence) {
         super(element);
         this.name = name;
+        this.precedence = precedence;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public int getPrecedence() {
+        return precedence;
     }
 
-    public abstract Number function(Number num);
+    public abstract Operand function(Operand num, Operand num2);
 
 }
