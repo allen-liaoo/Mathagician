@@ -3,10 +3,7 @@ package operation;
 import operation.section.Operand;
 import operation.section.Operator;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 /**
  *
@@ -28,24 +25,34 @@ public class Operation {
             if(sec instanceof Operand) {
                 operands.push((Operand) operation.poll());
             } else if(sec instanceof Operator) {
-                System.out.println("size: "+operands.size());
-
                 Operator op = (Operator) sec;
-                Operand pop1 = operands.pop();
-                Operand pop2 = operands.pop();
-                operands.push(op.function(pop2, pop1));
+
+                List<Operand> opargs = new ArrayList<>();
+                for (int i = 0; i < op.getOperandLimit(); i++) {
+                    opargs.add(this.operands.pop());
+                }
+                //Operand pop2 = operands.pop();
+                operands.push(op.apply(opargs.toArray(new Operand[opargs.size()])));
+                operation.remove();
             }
+            if(operands.size() == 1 && operation.isEmpty())
+                return operands.pop().getOperand();
         }
         return 0;
     }
 
-    public String stack() {
-        eval();
-        /*StringBuilder outStack = new StringBuilder();
+    /* Trace:
+        System.out.println(pop2.getOperand()+" " +op.getSection()+" "+pop2.getOperand());
+
+        System.out.print("\nQueue: ");
+        for(Section s : operation) {
+            System.out.print(s.getSection()+" ");
+        }
+        System.out.print("\nStack: ");
         for(Operand d : operands) {
-            outStack.append(d.getOperand());
-        }*/
-        return "";
-    }
+            System.out.print(d.getOperand()+" ");
+        }
+        System.out.println();
+     */
 
 }

@@ -1,8 +1,8 @@
+import operation.DefaultOperator;
 import operation.Operation;
 import operation.Section;
 import operation.section.Operand;
 import operation.section.Operator;
-import operation.section.OperatorPrecedence;
 
 import java.util.*;
 
@@ -13,8 +13,10 @@ import java.util.*;
 public class OperationBuilder {
 
     private String operation;
+
     private List<Section> sections;
     private Stack<Section> operatorStack;
+
     private HashMap<String, Operator> operators;
 
     public OperationBuilder(String operation) {
@@ -33,8 +35,8 @@ public class OperationBuilder {
         StringBuilder ops = new StringBuilder(operation);
         for(int i = 0; i < operation.length(); i++) {
             String character = String.valueOf(ops.charAt(i));
-            if(isNumber(character)) {
-                sections.add(new Operand(character, Integer.parseInt(character)));
+            if(Util.isNumber(character)) {
+                sections.add(new Operand(Double.parseDouble(character)));
             } else if(operators.containsKey(character)) {
                 Operator op = operators.get(character);
                 while (!operatorStack.empty()) {
@@ -65,19 +67,10 @@ public class OperationBuilder {
         return new Operation(sections.toArray(new Section[sections.size()]));
     }
 
-    private boolean isNumber(String test) {
-        try {
-            Double.parseDouble(test);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder();
-        for(Section sec : sections) output.append(sec.toString());
+        for(Section sec : sections) output.append(sec.toString()+" ");
         return output.toString();
     }
 
@@ -91,33 +84,8 @@ public class OperationBuilder {
 
     private void addDefaultOperator()
     {
-        operators.put("+", (new Operator("+", "add", 0) {
-            @Override
-            public Operand function(Operand num, Operand num2) {
-                num.setOperand(num.getOperand() + num2.getOperand());
-                return num;
-            }
-        }));
-        operators.put("-", (new Operator("-", "subtract", 0) {
-            @Override
-            public Operand function(Operand num, Operand num2) {
-                num.setOperand(num.getOperand() - num2.getOperand());
-                return num;
-            }
-        }));
-        operators.put("*", (new Operator("*", "multiply", 1){
-            @Override
-            public Operand function(Operand num, Operand num2) {
-                num.setOperand(num.getOperand() * num2.getOperand());
-                return num;
-            }
-        }));
-        operators.put("/", (new Operator("/", "divide", 1){
-            @Override
-            public Operand function(Operand num, Operand num2) {
-                num.setOperand(num.getOperand() / num2.getOperand());
-                return num;
-            }
-        }));
+        DefaultOperator defaultOp = new DefaultOperator();
+        addOperator(defaultOp.getDefaultOperator());
     }
 }
+

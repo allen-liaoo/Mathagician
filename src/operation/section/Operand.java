@@ -9,8 +9,8 @@ public class Operand extends Section {
 
     private double operand;
 
-    public Operand(String element, double operand) {
-        super(element);
+    public Operand(double operand) {
+        super(operand+"");
         this.operand = operand;
     }
 
