@@ -9,7 +9,7 @@ public class Test
 {
     public static void main(String[] args)
     {
-        String expression = "φ";
+        String expression = "π";
         System.out.println("Expression: " + expression);
         OperationBuilder operation = new OperationBuilder(expression)
             .addOperator(new Operator("!", "factorial", 1, 2) {
