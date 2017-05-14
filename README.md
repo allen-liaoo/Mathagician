@@ -2,12 +2,13 @@
 Math Operation Evaluator and Calculator base on Shunting-yard algorithm. <br />
 **Under Construction**
 
-##### Features
-- Support operators: +, -, *, /
+### Features
+- Support number type: integer, double(float)
+- Support operators: +, -, *, /, !
 - Support constants: pi(π), e, φ
 - Add custom operators and constants
 
-##### Todo List
-- [ ] More operators: !, ^, (, )
+### Todo List
+- [ ] More operators: ^, (, )
 - [ ] Functions: sin(), cos(), tan() 
 - [ ] Variables: OperationBuilder#setVariable("x", "1")

@@ -31,7 +31,7 @@ public class Operation {
                 for (int i = 0; i < op.getOperandLimit(); i++) {
                     opargs.add(this.operands.pop());
                 }
-                //Operand pop2 = operands.pop();
+
                 operands.push(op.apply(opargs.toArray(new Operand[opargs.size()])));
                 operation.remove();
             }

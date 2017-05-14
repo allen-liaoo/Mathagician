@@ -5,7 +5,7 @@ import operation.entities.Operator;
 /**
  * Created by liaoyilin on 5/12/17.
  */
-public abstract class Section {
+public class Section {
 
     private final String section;
 

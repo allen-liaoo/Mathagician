@@ -9,13 +9,22 @@ import operation.Section;
 public abstract class Operator extends Section {
 
     private final String name;
-    private final int operandLimit;
     private final int precedence;
+    private final int arity;
 
-    public Operator(String element, String name, int operandLimit, int precedence) {
+    /* Operator Precedence */
+    public static int PRECEDENCE_ADDITION = 1;          // Addition, Subtraction
+    public static int PRECEDENCE_MULTIPLICATION = 2;    // Multiplication, Division
+    public static int PRECEDENCE_POWER = 3;             // Power
+    public static int PRECEDENCE_FORCE = 15;            // First Priority
+
+    public static int ARITY_UNARY = 1;
+    public static int ARITY_BINARY = 2;
+
+    public Operator(String element, String name, int arity, int precedence) {
         super(element);
         this.name = name;
-        this.operandLimit = operandLimit;
+        this.arity = arity;
         this.precedence = precedence;
     }
 
@@ -28,12 +37,12 @@ public abstract class Operator extends Section {
     }
 
     public int getOperandLimit() {
-        return operandLimit;
+        return arity;
     }
 
     public Operand apply(Operand... operands) {
-        if(operands.length != operandLimit) {
-            throw new IllegalArgumentException(name + " operator only accept " + operandLimit + " operands as parameter. "
+        if(operands.length != arity) {
+            throw new IllegalArgumentException(name + " operator only accept " + arity + " operands as parameter. "
                     + "(Parameter passed: " + operands.length + ")");
         }
         return action(operands);

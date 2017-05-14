@@ -11,11 +11,11 @@ import java.util.List;
  *
  * @author Alien Ideology <alien.ideology at alien.org>
  */
-public class DefaultPack {
+public class DefaultFactory {
 
     public List<Operator> getDefaultOperator() {
         List<Operator> operators = new ArrayList<>();
-        operators.add(new Operator("+", "add", 2, 0) {
+        operators.add(new Operator("+", "add", Operator.ARITY_BINARY, Operator.PRECEDENCE_ADDITION) {
             @Override
             public Operand action(Operand... operands) {
                 double number = 0;
@@ -25,7 +25,7 @@ public class DefaultPack {
                 return new Operand(number);
             }
         });
-        operators.add(new Operator("-", "subtract", 2, 0) {
+        operators.add(new Operator("-", "subtract", Operator.ARITY_BINARY, Operator.PRECEDENCE_ADDITION) {
             @Override
             public Operand action(Operand... operands) {
                 double number = 0;
@@ -35,24 +35,49 @@ public class DefaultPack {
                 return new Operand(number);
             }
         });
-        operators.add(new Operator("*", "multiply", 2, 1){
+        operators.add(new Operator("*", "multiply", Operator.ARITY_BINARY, Operator.PRECEDENCE_MULTIPLICATION){
             @Override
             public Operand action(Operand... operands) {
-                double number = 0;
+                double number = 1;
                 for (Operand operand : operands) {
                     number *= operand.getOperand();
                 }
                 return new Operand(number);
             }
         });
-        operators.add(new Operator("/", "divide", 2, 1){
+        operators.add(new Operator("/", "divide", Operator.ARITY_BINARY, Operator.PRECEDENCE_MULTIPLICATION){
             @Override
             public Operand action(Operand... operands) {
-                double number = 0;
+                double number = 1;
                 for (Operand operand : operands) {
                     if(operand.getOperand() == 0)
                         throw new ArithmeticException("Division by 0.");
                     number /= operand.getOperand();
+                }
+                return new Operand(number);
+            }
+        });
+        operators.add(new Operator("%", "mod", Operator.ARITY_BINARY, Operator.PRECEDENCE_MULTIPLICATION){
+            @Override
+            public Operand action(Operand... operands) {
+                if(operands[0].getOperand() == 0)
+                    throw new ArithmeticException("Division (mod) by 0.");
+
+                double number = 1;
+                number  = operands[1].getOperand() % operands[0].getOperand();
+                return new Operand(number);
+            }
+        });
+        operators.add(new Operator("!", "factorial", Operator.ARITY_UNARY, Operator.PRECEDENCE_FORCE) {
+            @Override
+            public Operand action(Operand... operands) {
+                Operand op = operands[0];
+                if(op.getOperand() < 0)
+                    throw new IllegalArgumentException("Operand of factorial must be greater than 0.");
+
+                double number = 1;
+                for(int i = 1; i <= operands[0].getOperand(); i++) {
+                    number *= i;
                 }
                 return new Operand(number);
             }
