@@ -32,8 +32,6 @@ public class OperationBuilder {
     private String parenthesis_close = ")";
     private String argument_separator = ",";
 
-    private boolean useRadian = false;
-
     /* Default */
     private DefaultFactory defaultFactory = new DefaultFactory();
 
@@ -175,7 +173,7 @@ public class OperationBuilder {
         for(String s : functions.keySet()) regexFunction += s+"|";
         regexFunction = regexFunction.substring(0,regexFunction.length()-1);
 
-        regexNotation = "\\"+parenthesis_open+"\\"+parenthesis_close+"\\"+argument_separator;
+        regexNotation = "\\" + parenthesis_open + "\\" + parenthesis_close + "\\" + argument_separator;
 
         Pattern regex = Pattern.compile("((\\d*\\.\\d+)|(\\d+)|"
                         +"(["+regexNotation+"])|"
@@ -188,8 +186,7 @@ public class OperationBuilder {
      * @param operators varargs of operators to be added
      * @return OperationBuilder, easier for chaining
      */
-    public OperationBuilder addOperator(Operator... operators)
-    {
+    public OperationBuilder addOperator(Operator... operators) {
         for(Operator op : operators) {
             this.operators.put(op.getSection(), op);
         }
@@ -200,8 +197,7 @@ public class OperationBuilder {
      * @param constants varargs of constants to be added
      * @return OperationBuilder, easier for chaining
      */
-    public OperationBuilder addConstant(Constant... constants)
-    {
+    public OperationBuilder addConstant(Constant... constants) {
         for(Constant con : constants) {
             for(String key : con.getKeys()) this.constants.put(key, con);
         }
@@ -212,8 +208,7 @@ public class OperationBuilder {
      * @param functions varargs of constants to be added
      * @return OperationBuilder, easier for chaining
      */
-    public OperationBuilder addFunction(Function... functions)
-    {
+    public OperationBuilder addFunction(Function... functions) {
         for(Function func : functions) {
             this.functions.put(func.getSection(), func);
         }
@@ -227,10 +222,6 @@ public class OperationBuilder {
 
     public void setArgumentSeparator(String argument_separator) {
         this.argument_separator = argument_separator;
-    }
-
-    public void useRadian() {
-        useRadian = true;
     }
 
     /**

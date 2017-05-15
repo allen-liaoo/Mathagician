@@ -1,14 +1,76 @@
 # Mathagician
 Math Operation Evaluator and Calculator base on Shunting-yard algorithm. <br />
-**Under Construction**
 
-### Features
-- Support number type: integer, double(float)
-- Support operators: +, -, *, /, !
-- Support constants: pi(π), e, φ
-- Add custom operators and constants
+### Defualt
+- Number type: 
+  - Integer
+  - Double
+- Operator: 
+  - Basic: +, -, *, /
+  - Advance: %, ^, !
+- Notation: 
+  - Custom Parenthesis (Default: `()`)
+- Constant: 
+  - pi or π
+  - e
+  - φ
+- Function: 
+  - Trigonometry: sin, cos, tan, csc, sec, cot
+  
+### Examples
+- Custom operator
+
+Parameters: Key, Name, Arity (UNARY or BINARY),
+Precedence (ADDITION, MULTIPLICATION, POWER, or FORCE), isLeftAssociative
+```java 
+Operator op = new Operator("√", "sqrt", Operator.ARITY_BINARY, Operator.POWER, false){
+    @Override
+    public Operand operate(Operand... operands) {
+        if(operands[0].getNumber() < 0)
+            throw new ArithmeticException("Imaginary number.");
+
+        return new Operand(Math.sqrt(operand[0].getNumber())));
+    }
+});
+
+OperationBuilder operation = new OperationBuilder("√4")
+    .addOperator(op).parse();
+double result = operation.build();
+```
+<br />
+- Custom constant
+
+```java 
+Constant cs = new Constant(6.022 * Math.pow(10, 23), "mol", "mole", "L");
+OperationBuilder operation = new OperationBuilder("2mol")
+    .addConstant(cs).parse();
+double result = operation.build();
+```
+<br />
+- Custom notation
+
+```java 
+OperationBuilder operation = new OperationBuilder("[2^3]+1")
+    .setParenthesis("[", "]").parse();
+double result = operation.build();
+```
+<br />
+- Custom function <br />
+
+```java 
+Function ft = new Function("round", 1) {
+    @Override
+    public Operand function(Operand... operands) {
+        return new Operand(Math.round(operand[0].getNumber()));
+    }
+});
+OperationBuilder operation = new OperationBuilder("round(3.14)")
+    .addFunction(ft).parse();
+double result = operation.build();
+```
+Note: OperationBuilder#add(Operator|Constant|Function) can accept varargs
 
 ### Todo List
-- [ ] More operators: ^, (, )
-- [ ] Functions: sin(), cos(), tan() 
+- [x] More operators...
+- [ ] More Functions... 
 - [ ] Variables: OperationBuilder#setVariable("x", "1")

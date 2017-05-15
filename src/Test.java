@@ -7,7 +7,7 @@ public class Test
 {
     public static void main(String[] args)
     {
-        String expression = "2^3^4(2)";
+        String expression = "csc(30)";
         System.out.println("Expression: " + expression);
 
         OperationBuilder operation = new OperationBuilder(expression).parse();

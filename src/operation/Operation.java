@@ -24,7 +24,7 @@ public class Operation {
 
     /**
      * @return result of the math sections
-     * @throws UnsupportedOperationException if there is no result for this sections
+     * @throws UnsupportedOperationException if there is no result for this operation
      */
     public double eval() {
         while(!sections.isEmpty()) {

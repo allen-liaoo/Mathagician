@@ -100,21 +100,42 @@ public class DefaultFactory {
         functions.add(new Function("sin", 1) {
             @Override
             public Operand function(Operand... operands) {
-                return new Operand(Math.sin(operands[0].getNumber()));
+                return new Operand(Math.sin(Math.toRadians(operands[0].getNumber())));
             }
         });
 
         functions.add(new Function("cos", 1) {
             @Override
             public Operand function(Operand... operands) {
-                return new Operand(Math.cos(operands[0].getNumber()));
+                return new Operand(Math.cos(Math.toRadians(operands[0].getNumber())));
             }
         });
 
         functions.add(new Function("tan", 1) {
             @Override
             public Operand function(Operand... operands) {
-                return new Operand(Math.tan(operands[0].getNumber()));
+                return new Operand(Math.tan(Math.toRadians(operands[0].getNumber())));
+            }
+        });
+
+        functions.add(new Function("csc", 1) {
+            @Override
+            public Operand function(Operand... operands) {
+                return new Operand(1/Math.sin(Math.toRadians(operands[0].getNumber())));
+            }
+        });
+
+        functions.add(new Function("sec", 1) {
+            @Override
+            public Operand function(Operand... operands) {
+                return new Operand(1/Math.cos(Math.toRadians(operands[0].getNumber())));
+            }
+        });
+
+        functions.add(new Function("cot", 1) {
+            @Override
+            public Operand function(Operand... operands) {
+                return new Operand(1/Math.tan(Math.toRadians(operands[0].getNumber())));
             }
         });
 
