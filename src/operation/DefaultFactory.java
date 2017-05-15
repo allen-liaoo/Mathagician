@@ -1,6 +1,7 @@
 package operation;
 
 import operation.entities.Constant;
+import operation.entities.Function;
 import operation.entities.Operand;
 import operation.entities.Operator;
 
@@ -15,73 +16,71 @@ public class DefaultFactory {
 
     public List<Operator> getDefaultOperator() {
         List<Operator> operators = new ArrayList<>();
-        operators.add(new Operator("+", "add", Operator.ARITY_BINARY, Operator.PRECEDENCE_ADDITION) {
+
+        operators.add(new Operator("+", "add", Operator.ARITY_BINARY, Operator.PRECEDENCE_ADDITION, true) {
             @Override
-            public Operand action(Operand... operands) {
-                double number = 0;
-                for (Operand operand : operands) {
-                    number += operand.getOperand();
-                }
-                return new Operand(number);
+            public Operand operate(Operand... operands) {
+                return new Operand(operands[0].getNumber() + operands[1].getNumber());
             }
         });
-        operators.add(new Operator("-", "subtract", Operator.ARITY_BINARY, Operator.PRECEDENCE_ADDITION) {
+
+        operators.add(new Operator("-", "subtract", Operator.ARITY_BINARY, Operator.PRECEDENCE_ADDITION, true) {
             @Override
-            public Operand action(Operand... operands) {
-                double number = 0;
-                for (Operand operand : operands) {
-                    number -= operand.getOperand();
-                }
-                return new Operand(number);
+            public Operand operate(Operand... operands) {
+                return new Operand(operands[0].getNumber() - operands[1].getNumber());
             }
         });
-        operators.add(new Operator("*", "multiply", Operator.ARITY_BINARY, Operator.PRECEDENCE_MULTIPLICATION){
+
+        operators.add(new Operator("*", "multiply", Operator.ARITY_BINARY, Operator.PRECEDENCE_MULTIPLICATION, true){
             @Override
-            public Operand action(Operand... operands) {
-                double number = 1;
-                for (Operand operand : operands) {
-                    number *= operand.getOperand();
-                }
-                return new Operand(number);
+            public Operand operate(Operand... operands) {
+                return new Operand(operands[0].getNumber() * operands[1].getNumber());
             }
         });
-        operators.add(new Operator("/", "divide", Operator.ARITY_BINARY, Operator.PRECEDENCE_MULTIPLICATION){
+
+        operators.add(new Operator("/", "divide", Operator.ARITY_BINARY, Operator.PRECEDENCE_MULTIPLICATION, true){
             @Override
-            public Operand action(Operand... operands) {
-                double number = 1;
-                for (Operand operand : operands) {
-                    if(operand.getOperand() == 0)
-                        throw new ArithmeticException("Division by 0.");
-                    number /= operand.getOperand();
-                }
-                return new Operand(number);
+            public Operand operate(Operand... operands) {
+                if(operands[1].getNumber() == 0)
+                    throw new ArithmeticException("Division by 0.");
+                return new Operand(operands[0].getNumber() / operands[1].getNumber());
             }
         });
-        operators.add(new Operator("%", "mod", Operator.ARITY_BINARY, Operator.PRECEDENCE_MULTIPLICATION){
+
+        operators.add(new Operator("%", "mod", Operator.ARITY_BINARY, Operator.PRECEDENCE_MULTIPLICATION, true){
             @Override
-            public Operand action(Operand... operands) {
-                if(operands[0].getOperand() == 0)
+            public Operand operate(Operand... operands) {
+                if(operands[1].getNumber() == 0)
                     throw new ArithmeticException("Division (mod) by 0.");
 
                 double number = 1;
-                number  = operands[1].getOperand() % operands[0].getOperand();
+                number  = operands[0].getNumber() % operands[1].getNumber();
                 return new Operand(number);
             }
         });
-        operators.add(new Operator("!", "factorial", Operator.ARITY_UNARY, Operator.PRECEDENCE_FORCE) {
+
+        operators.add(new Operator("^", "power", Operator.ARITY_BINARY, Operator.PRECEDENCE_POWER, false) {
             @Override
-            public Operand action(Operand... operands) {
+            public Operand operate(Operand... operands) {
+                return new Operand(Math.pow(operands[0].getNumber(), operands[1].getNumber()));
+            }
+        });
+
+        operators.add(new Operator("!", "factorial", Operator.ARITY_UNARY, Operator.PRECEDENCE_FORCE, true) {
+            @Override
+            public Operand operate(Operand... operands) {
                 Operand op = operands[0];
-                if(op.getOperand() < 0)
+                if(op.getNumber() < 0)
                     throw new IllegalArgumentException("Operand of factorial must be greater than 0.");
 
                 double number = 1;
-                for(int i = 1; i <= operands[0].getOperand(); i++) {
+                for(int i = 1; i <= op.getNumber(); i++) {
                     number *= i;
                 }
                 return new Operand(number);
             }
         });
+
         return operators;
     }
 
@@ -91,7 +90,35 @@ public class DefaultFactory {
         constants.add(new Constant(Math.PI, "pi", "π"));
         constants.add(new Constant(Math.E, "e"));
         constants.add(new Constant(1.6180339887498948482, "φ"));
+
         return constants;
+    }
+
+    public List<Function> getDefaultFunction() {
+        List<Function> functions = new ArrayList<>();
+
+        functions.add(new Function("sin", 1) {
+            @Override
+            public Operand function(Operand... operands) {
+                return new Operand(Math.sin(operands[0].getNumber()));
+            }
+        });
+
+        functions.add(new Function("cos", 1) {
+            @Override
+            public Operand function(Operand... operands) {
+                return new Operand(Math.cos(operands[0].getNumber()));
+            }
+        });
+
+        functions.add(new Function("tan", 1) {
+            @Override
+            public Operand function(Operand... operands) {
+                return new Operand(Math.tan(operands[0].getNumber()));
+            }
+        });
+
+        return functions;
     }
 
 }

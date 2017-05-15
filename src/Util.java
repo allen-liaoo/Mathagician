@@ -1,5 +1,8 @@
+import java.math.BigInteger;
+
 /**
- * Created by liaoyilin on 5/13/17.
+ * Number Utilities
+ * @author Alien Ideology <alien.ideology at alien.org>
  */
 public class Util {
 
@@ -10,6 +13,10 @@ public class Util {
             return false;
         }
         return true;
+    }
+
+    public static int getGCD(int num, int num2) {
+        return BigInteger.valueOf(num).gcd(BigInteger.valueOf(num2)).intValue();
     }
 
 }

@@ -3,7 +3,8 @@ package operation;
 import operation.entities.Operator;
 
 /**
- * Created by liaoyilin on 5/12/17.
+ * General sections of a math operation
+ * @author Alien Ideology <alien.ideology at alien.org>
  */
 public class Section {
 

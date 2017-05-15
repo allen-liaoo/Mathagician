@@ -7,22 +7,22 @@ import operation.Section;
  */
 public class Operand extends Section {
 
-    private double operand;
+    private double number;
 
-    public Operand(double operand) {
-        super(operand+"");
-        this.operand = operand;
+    public Operand(double number) {
+        super(number +"");
+        this.number = number;
     }
 
-    public double getOperand() {
-        return operand;
+    public double getNumber() {
+        return number;
     }
 
-    public double setOperand(double number) {
-        return this.operand = number;
+    public double setNumber(double number) {
+        return this.number = number;
     }
 
     public boolean equals(Operand num) {
-        return num.getOperand() == operand;
+        return num.getNumber() == number;
     }
 }
