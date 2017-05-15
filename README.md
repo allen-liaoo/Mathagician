@@ -35,26 +35,23 @@ Operator op = new Operator("√", "sqrt", Operator.ARITY_BINARY, Operator.POWER,
 
 OperationBuilder operation = new OperationBuilder("√4")
     .addOperator(op).parse();
-double result = operation.build();
-```
-<br />
+double result = operation.build().eval();
+``` 
 - Custom constant
 
 ```java 
 Constant cs = new Constant(6.022 * Math.pow(10, 23), "mol", "mole", "L");
 OperationBuilder operation = new OperationBuilder("2mol")
     .addConstant(cs).parse();
-double result = operation.build();
+double result = operation.build().eval();
 ```
-<br />
 - Custom notation
 
 ```java 
 OperationBuilder operation = new OperationBuilder("[2^3]+1")
     .setParenthesis("[", "]").parse();
-double result = operation.build();
+double result = operation.build().eval();
 ```
-<br />
 - Custom function <br />
 
 ```java 
@@ -66,7 +63,7 @@ Function ft = new Function("round", 1) {
 });
 OperationBuilder operation = new OperationBuilder("round(3.14)")
     .addFunction(ft).parse();
-double result = operation.build();
+double result = operation.build().eval();
 ```
 Note: OperationBuilder#add(Operator|Constant|Function) can accept varargs
 
