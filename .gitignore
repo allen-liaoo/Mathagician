@@ -30,3 +30,5 @@ hs_err_pid*
 /gradlew
 /settings.gradle
 /gradlew.bat
+build/
+/test/PrivateConstant.java

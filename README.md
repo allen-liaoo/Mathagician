@@ -41,7 +41,7 @@ double result = operation.build().eval();
 
 ```java 
 Constant cs = new Constant(6.022 * Math.pow(10, 23), "mol", "mole", "L");
-OperationBuilder operation = new OperationBuilder("2mol")
+OperationBuilder operation = new OperationBuilder("12mol")
     .addConstant(cs).parse();
 double result = operation.build().eval();
 ```

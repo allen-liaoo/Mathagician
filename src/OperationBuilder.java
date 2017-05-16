@@ -58,7 +58,7 @@ public class OperationBuilder {
         while (matcher.find()) {
             matchCount++;
             String section = matcher.group();
-            System.out.println("Group "+matchCount+" "+section);
+            //System.out.println("Group "+matchCount+" "+section);
 
             /** Number */
             if (Util.isNumber(section)) {
@@ -173,7 +173,7 @@ public class OperationBuilder {
         for(String s : functions.keySet()) regexFunction += s+"|";
         regexFunction = regexFunction.substring(0,regexFunction.length()-1);
 
-        regexNotation = "\\" + parenthesis_open + "\\" + parenthesis_close + "\\" + argument_separator;
+        regexNotation = String.format("\\%s\\%s\\%s", parenthesis_open, parenthesis_close, argument_separator);
 
         Pattern regex = Pattern.compile("((\\d*\\.\\d+)|(\\d+)|"
                         +"(["+regexNotation+"])|"

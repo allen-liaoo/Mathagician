@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Mathagician.iml" filepath="$PROJECT_DIR$/.idea/modules/Mathagician.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Mathagician_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Mathagician_main.iml" group="Mathagician" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Mathagician_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Mathagician_test.iml" group="Mathagician" />
     </modules>
   </component>
