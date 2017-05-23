@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import operation.DefaultFactory;
 import operation.entities.Constant;
 import operation.entities.Function;
+import operation.entities.Operand;
 import operation.entities.Operator;
 
 import javax.security.auth.login.LoginException;
@@ -55,8 +56,15 @@ public class Test
                 } else {
                     EmbedBuilder embed = new EmbedBuilder();
                     try {
-                        OperationBuilder builder = new OperationBuilder(expression).parse();
+                        OperationBuilder builder = new OperationBuilder(expression).addFunction(new Function("pow", 2) {
+                            @Override
+                            public Operand function(Operand... operands) {
+                                return new Operand(Math.pow(operands[0].getNumber(), operands[1].getNumber()));
+                            }
+                        }).parse();
+
                         double operation = builder.build().eval();
+
                         embed.setTitle("Expression: " + expression, null)
                                 .setDescription("Reverse Polish: " + builder.toString())
                                 .addField("Answer", operation + "", true);
@@ -89,7 +97,7 @@ public class Test
                 .addField("Operators", operators, false)
                 .addField("Constants", constants, false)
                 .addField("Functions", functions, false)
-                .addField("Example", "Prefix: **,**\n,sin(30)*2 gives ", false);
+                .addField("Example", "Prefix: **,**\n,sin(30)*2 gives 0.499999", false);
             return embed;
         }
     }

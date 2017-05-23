@@ -53,10 +53,8 @@ public class OperationBuilder {
     public OperationBuilder parse() {
 
         Matcher matcher = buildRegex();
-        int matchCount = 0;
 
         while (matcher.find()) {
-            matchCount++;
             String section = matcher.group();
             //System.out.println("Group "+matchCount+" "+section);
 
@@ -98,12 +96,13 @@ public class OperationBuilder {
                     sections.add(operatorStack.pop());
 
             /** Arguments Separator (For functions, i.e. comma) */
-            /*} else if (argument_separator.equals(section)) {
+            } else if (argument_separator.equals(section)) {
 
-                while (operatorStack.isEmpty() && !operatorStack.peek().getSection().equals(parenthesis_open)) {
+                while (!operatorStack.peek().getSection().equals(parenthesis_open)) {
+                    if(operatorStack.isEmpty())
+                        throw new IllegalArgumentException("Unclosed function parenthesis.");
                     sections.add(operatorStack.pop());
-                    //throw new IllegalArgumentException("Unclosed function parenthesis.");
-                }*/
+                }
 
             /** Unknown */
             } else {    // Unknown operator, constant, or function

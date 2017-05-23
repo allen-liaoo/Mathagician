@@ -1,7 +1,7 @@
 # Mathagician
 Math Operation Evaluator and Calculator base on Shunting-yard algorithm. <br />
 
-### Defualt
+### Default
 - Number type: 
   - Integer
   - Double
@@ -69,5 +69,5 @@ Note: OperationBuilder#add(Operator|Constant|Function) can accept varargs
 
 ### Todo List
 - [x] More operators...
-- [ ] More Functions... 
+- [x] More Functions... 
 - [ ] Variables: OperationBuilder#setVariable("x", "1")
