@@ -28,4 +28,9 @@ public class Constant {
     public double getValue() {
         return value;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Constant && this.getValue() == ((Constant) obj).getValue();
+    }
 }

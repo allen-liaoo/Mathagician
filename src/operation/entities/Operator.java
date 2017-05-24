@@ -74,4 +74,9 @@ public abstract class Operator extends Section {
      */
     public abstract Operand operate(Operand... operands);
 
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Operator && this.getSection().equals(((Operator) o).getSection());
+    }
+
 }

@@ -52,20 +52,70 @@ public class OperationBuilder {
      */
     public OperationBuilder parse() {
 
+        /* Matcher */
         Matcher matcher = buildRegex();
+
+        /* Index */
+        int matcherIndex = 0;
+
+        /* Change to Negative */
+        boolean isNegative = false;
 
         while (matcher.find()) {
             String section = matcher.group();
-            //System.out.println("Group "+matchCount+" "+section);
+            matcherIndex = matcher.start();
+            System.out.println("Section "+section+" Index "+matcher.start());
 
             /** Number */
             if (Util.isNumber(section)) {
 
-                sections.add(new Operand(Double.parseDouble(section)));
+                sections.add(isNegative ? new Operand(Double.parseDouble(section) * -1) : new Operand(Double.parseDouble(section)));
 
             /** Operator */
             } else if (operators.containsKey(section)) {
-                handleOperator(section);
+
+                Operator op = operators.get(section);
+
+                /*
+                  Check if the operator is negative
+                  If it is, check if the previous character is a number. If it is not, isNegative = true
+                */
+                if (op.equals(DefaultFactory.SUBTRACT)) {
+
+                    /*
+                      "matcherIndex-1 < 0" When the negative/minus sign is at the start of this operation. (Is negative sign)
+                      "matcherIndex-1 >= 0..." When the previous character is a number. (Is negative sign)
+                     */
+                    if (matcherIndex-1 < 0 || (matcherIndex-1 >= 0 &&!Util.isNumber(String.valueOf(operation.charAt(matcherIndex-1))))) {
+                        isNegative = true;
+                        continue;
+                    }
+                }
+
+                /* Operator that is not forced to be pushed */
+                if (op.getPrecedence() < Operator.PRECEDENCE_FORCE) {
+                    while (!operatorStack.empty()) {
+
+                        /* Only considering Operator object in the stack */
+                        if (operatorStack.peek() instanceof Operator) {
+                            Operator op2 = (Operator) operatorStack.peek();
+
+                            /* Determine Precedence and pop if needed */
+                            if (op.getAssociative() && op.getPrecedence() <= op2.getPrecedence() ||
+                                !op.getAssociative() && op.getPrecedence() < op2.getPrecedence()) {
+                                sections.add(operatorStack.pop());
+                            } else {
+                                break;
+                            }
+                        /* Avoid Parenthesis */
+                        } else break;
+                    }
+                    operatorStack.push(op);
+
+                /* Force push operator like "!" */
+                } else {
+                    sections.add(op);
+                }
 
             /** Constant */
             } else if (constants.containsKey(section)) {
@@ -104,8 +154,8 @@ public class OperationBuilder {
                     sections.add(operatorStack.pop());
                 }
 
-            /** Unknown */
-            } else {    // Unknown operator, constant, or function
+            /** Unknown operator, constant, or function */
+            } else {
                 throw new IllegalArgumentException("Unknown section \""+section+"\" at index: "+operation.indexOf(section));
             }
         }
@@ -116,39 +166,6 @@ public class OperationBuilder {
         }
 
         return this;
-    }
-
-    /**
-     * Handle a operator
-     * @param section the operator's string representation
-     */
-    private void handleOperator(String section) {
-        Operator op = operators.get(section);
-
-        /* Operator that is not forced to be pushed */
-        if (op.getPrecedence() < Operator.PRECEDENCE_FORCE) {
-            while (!operatorStack.empty()) {
-
-                /* Only considering Operator object in the stack */
-                if (operatorStack.peek() instanceof Operator) {
-                    Operator op2 = (Operator) operatorStack.peek();
-
-                    /* Determine Precedence and pop if needed */
-                    if (op.getAssociative() && op.getPrecedence() <= op2.getPrecedence() ||
-                            !op.getAssociative() && op.getPrecedence() < op2.getPrecedence()) {
-                        sections.add(operatorStack.pop());
-                    } else {
-                        break;
-                    }
-                /* Avoid Parenthesis */
-                } else break;
-            }
-            operatorStack.push(op);
-
-        /* Force push operator like "!" */
-        } else {
-            sections.add(op);
-        }
     }
 
     /**
@@ -233,8 +250,7 @@ public class OperationBuilder {
         return output.toString();
     }
 
-    private void addDefaultPack()
-    {
+    private void addDefaultPack() {
         addOperator(defaultFactory.getDefaultOperator().toArray(new Operator[defaultFactory.getDefaultOperator().size()]));
         addConstant(defaultFactory.getDefaultConstant().toArray(new Constant[defaultFactory.getDefaultConstant().size()]));
         addFunction(defaultFactory.getDefaultFunction().toArray(new Function[defaultFactory.getDefaultFunction().size()]));

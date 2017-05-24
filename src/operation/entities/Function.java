@@ -34,4 +34,8 @@ public abstract class Function extends Section {
 
     public abstract Operand function(Operand... operands);
 
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Function && this.getSection().equals(((Function) o).getSection()) && this.getParameters() == ((Function) o).getParameters();
+    }
 }
