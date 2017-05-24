@@ -1,4 +1,4 @@
-package operation.entities;
+package math.operation.entities;
 
 import java.util.Arrays;
 import java.util.List;

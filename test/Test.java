@@ -1,3 +1,5 @@
+import math.comparison.ComparisonBuilder;
+import math.operation.Operation;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
@@ -6,11 +8,12 @@ import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
-import operation.DefaultFactory;
-import operation.entities.Constant;
-import operation.entities.Function;
-import operation.entities.Operand;
-import operation.entities.Operator;
+import math.operation.OperationDefaultFactory;
+import math.operation.OperationBuilder;
+import math.operation.entities.Constant;
+import math.operation.entities.Function;
+import math.Operand;
+import math.operation.entities.Operator;
 
 import javax.security.auth.login.LoginException;
 
@@ -52,16 +55,21 @@ public class Test
                 String expression = message.replaceFirst(",", "");
 
                 if (expression.startsWith("howtomath")) {
+
                     event.getChannel().sendMessage(howToMath().build()).queue();
+
+                } else if (expression.startsWith("compare ")) {
+
+                    String compare = expression.replaceFirst("compare ", "");
+                    System.out.println(compare);
+                    ComparisonBuilder comparison = new ComparisonBuilder(new Operation("1+1"), ">", new Operation("1+1"));
+                    event.getChannel().sendMessage(String.valueOf(comparison.eval())).queue();
+
                 } else {
+
                     EmbedBuilder embed = new EmbedBuilder();
                     try {
-                        OperationBuilder builder = new OperationBuilder(expression).addFunction(new Function("pow", 2) {
-                            @Override
-                            public Operand function(Operand... operands) {
-                                return new Operand(Math.pow(operands[0].getNumber(), operands[1].getNumber()));
-                            }
-                        }).parse();
+                        OperationBuilder builder = new OperationBuilder(expression).parse();
 
                         double operation = builder.build().eval();
 
@@ -75,13 +83,14 @@ public class Test
                         embed.setTitle("Oops!", null).setDescription("```\n\n" + ex.getMessage() + "```");
                     }
                     event.getChannel().sendMessage(embed.build()).queue();
+
                 }
             }
 
         }
 
         public EmbedBuilder howToMath() {
-            DefaultFactory defaults = new DefaultFactory();
+            OperationDefaultFactory defaults = new OperationDefaultFactory();
             String operators = "", constants = "", functions = "";
             for(Operator op : defaults.getDefaultOperator()) {
                 operators += op.getSection()+", ";

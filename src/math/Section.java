@@ -1,6 +1,4 @@
-package operation;
-
-import operation.entities.Operator;
+package math;
 
 /**
  * General sections of a math operation
@@ -26,10 +24,7 @@ public class Section {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Operator)) return false;
-
         Section section = (Section) o;
-
         return this.section != null ? this.section.equals(section.toString()) : section.section == null;
     }
 

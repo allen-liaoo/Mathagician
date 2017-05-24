@@ -1,10 +1,11 @@
-import operation.DefaultFactory;
-import operation.Operation;
-import operation.Section;
-import operation.entities.Constant;
-import operation.entities.Function;
-import operation.entities.Operand;
-import operation.entities.Operator;
+package math.operation;
+
+import math.Section;
+import math.operation.entities.Constant;
+import math.operation.entities.Function;
+import math.Operand;
+import math.operation.entities.Operator;
+import math.util.Util;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -33,7 +34,7 @@ public class OperationBuilder {
     private String argument_separator = ",";
 
     /* Default */
-    private DefaultFactory defaultFactory = new DefaultFactory();
+    private OperationDefaultFactory defaultFactory = new OperationDefaultFactory();
 
     public OperationBuilder(String operation) {
         this.operation = operation.toLowerCase();
@@ -47,7 +48,7 @@ public class OperationBuilder {
 
     /**
      * Change the operation into reverse polish
-     * @return OperationBuilder, easier for chaining
+     * @return operation.OperationBuilder, easier for chaining
      * @throws IllegalArgumentException for unknown characters in this operation
      */
     public OperationBuilder parse() {
@@ -64,7 +65,7 @@ public class OperationBuilder {
         while (matcher.find()) {
             String section = matcher.group();
             matcherIndex = matcher.start();
-            System.out.println("Section "+section+" Index "+matcher.start());
+            //System.out.println("Section "+section+" Index "+matcher.start());
 
             /** Number */
             if (Util.isNumber(section)) {
@@ -80,7 +81,7 @@ public class OperationBuilder {
                   Check if the operator is negative
                   If it is, check if the previous character is a number. If it is not, isNegative = true
                 */
-                if (op.equals(DefaultFactory.SUBTRACT)) {
+                if (op.equals(OperationDefaultFactory.SUBTRACT)) {
 
                     /*
                       "matcherIndex-1 < 0" When the negative/minus sign is at the start of this operation. (Is negative sign)
@@ -200,7 +201,7 @@ public class OperationBuilder {
 
     /**
      * @param operators varargs of operators to be added
-     * @return OperationBuilder, easier for chaining
+     * @return operation.OperationBuilder, easier for chaining
      */
     public OperationBuilder addOperator(Operator... operators) {
         for(Operator op : operators) {
@@ -211,7 +212,7 @@ public class OperationBuilder {
 
     /**
      * @param constants varargs of constants to be added
-     * @return OperationBuilder, easier for chaining
+     * @return operation.OperationBuilder, easier for chaining
      */
     public OperationBuilder addConstant(Constant... constants) {
         for(Constant con : constants) {
@@ -222,7 +223,7 @@ public class OperationBuilder {
 
     /**
      * @param functions varargs of constants to be added
-     * @return OperationBuilder, easier for chaining
+     * @return operation.OperationBuilder, easier for chaining
      */
     public OperationBuilder addFunction(Function... functions) {
         for(Function func : functions) {

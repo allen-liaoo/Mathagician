@@ -1,8 +1,9 @@
-package operation;
+package math.operation;
 
-import operation.entities.Function;
-import operation.entities.Operand;
-import operation.entities.Operator;
+import math.Section;
+import math.operation.entities.Function;
+import math.Operand;
+import math.operation.entities.Operator;
 
 import java.util.*;
 
@@ -27,6 +28,7 @@ public class Operation {
      * @throws UnsupportedOperationException if there is no result for this operation
      */
     public double eval() {
+
         while(!sections.isEmpty()) {
             Section sec = sections.peek();
             if(sec instanceof Operand) {
@@ -60,7 +62,7 @@ public class Operation {
 
             /* Return if there is only one operand left in the stack */
             if(operands.size() == 1 && sections.isEmpty()) {
-                return returnMachine(operands.pop()).getNumber();
+                return operands.pop().getNumber();
             }
         }
 
@@ -78,8 +80,8 @@ public class Operation {
         }
     }
 
-    private Operand returnMachine(Operand operand) {
-        return operand;
+    private Operand evalOp() {
+        return new Operand(eval());
     }
 
     public String getOperation() {

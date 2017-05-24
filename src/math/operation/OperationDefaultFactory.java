@@ -1,18 +1,18 @@
-package operation;
+package math.operation;
 
-import operation.entities.Constant;
-import operation.entities.Function;
-import operation.entities.Operand;
-import operation.entities.Operator;
+import math.operation.entities.Constant;
+import math.operation.entities.Function;
+import math.Operand;
+import math.operation.entities.Operator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Default Operators, Constants, and Functions
  * @author Alien Ideology <alien.ideology at alien.org>
  */
-public class DefaultFactory {
+public class OperationDefaultFactory {
 
     public List<Operator> getDefaultOperator() {
         List<Operator> operators = new ArrayList<>();

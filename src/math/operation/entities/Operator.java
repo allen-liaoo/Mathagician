@@ -1,6 +1,7 @@
-package operation.entities;
+package math.operation.entities;
 
-import operation.Section;
+import math.Operand;
+import math.Section;
 
 /**
  * Operator of a math operation

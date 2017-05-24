@@ -1,9 +1,8 @@
-package operation.entities;
-
-import operation.Section;
+package math;
 
 /**
- * Created by liaoyilin on 5/12/17.
+ * Operand
+ * @author AlienIdeology
  */
 public class Operand extends Section {
 
