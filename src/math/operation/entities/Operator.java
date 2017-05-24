@@ -4,7 +4,7 @@ import math.Operand;
 import math.Section;
 
 /**
- * Operator of a math operation
+ * Operator like +, -
  * @author Alien Ideology <alien.ideology at alien.org>
  */
 public abstract class Operator extends Section {

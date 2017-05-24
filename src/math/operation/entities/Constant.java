@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *
+ * Constant like PI, E
  * @author Alien Ideology <alien.ideology at alien.org>
  */
 public class Constant {

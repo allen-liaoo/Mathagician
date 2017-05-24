@@ -1,7 +1,7 @@
 package math;
 
 /**
- * Operand
+ * Operand like 4, -3.2
  * @author AlienIdeology
  */
 public class Operand extends Section {

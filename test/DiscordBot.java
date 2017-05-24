@@ -21,7 +21,7 @@ import javax.security.auth.login.LoginException;
  * A simple discord bot for testing Mathagician
  * @author Alien Ideology <alien.ideology at alien.org>
  */
-public class Test
+public class DiscordBot
 {
     public static void main(String[] args)
     {
@@ -51,37 +51,24 @@ public class Test
 
             String message = event.getMessage().getContent();
 
-            if(message.startsWith(",")) {
-                String expression = message.replaceFirst(",", "");
-
-                if (expression.startsWith("howtomath")) {
-
+            if(message.startsWith(",") && message.length() > 1) {
+                message = message.substring(1);
+                if (message.startsWith("howtomath")) {
                     event.getChannel().sendMessage(howToMath().build()).queue();
-
-                } else if (expression.startsWith("compare ")) {
-
-                    String compare = expression.replaceFirst("compare ", "");
-                    System.out.println(compare);
-                    ComparisonBuilder comparison = new ComparisonBuilder(new Operation("1+1"), ">", new Operation("1+1"));
-                    event.getChannel().sendMessage(String.valueOf(comparison.eval())).queue();
-
                 } else {
 
-                    EmbedBuilder embed = new EmbedBuilder();
+                    EmbedBuilder embed;
                     try {
-                        OperationBuilder builder = new OperationBuilder(expression).parse();
-
-                        double operation = builder.build().eval();
-
-                        embed.setTitle("Expression: " + expression, null)
-                                .setDescription("Reverse Polish: " + builder.toString())
-                                .addField("Answer", operation + "", true);
-
-                        System.out.println("Expression: " + expression + "\nReverse Polish: " + builder.toString() + "\nAnswer: " + operation);
-
+                        if (message.startsWith("compare ")) {
+                            embed = compareExpression(message.replaceFirst("compare ", ""));
+                        } else {
+                            embed = calculateOperation(message.replaceFirst(",", ""));
+                        }
                     } catch (Exception ex) {
-                        embed.setTitle("Oops!", null).setDescription("```\n\n" + ex.getMessage() + "```");
+                        event.getChannel().sendMessage("Oops!\n```\n\n" + ex.getMessage() + "```").queue();
+                        return;
                     }
+
                     event.getChannel().sendMessage(embed.build()).queue();
 
                 }
@@ -107,6 +94,28 @@ public class Test
                 .addField("Constants", constants, false)
                 .addField("Functions", functions, false)
                 .addField("Example", "Prefix: **,**\n,sin(30)*2 gives 0.499999", false);
+            return embed;
+        }
+
+        public EmbedBuilder calculateOperation(String expression) {
+            EmbedBuilder embed = new EmbedBuilder();
+            OperationBuilder builder = new OperationBuilder(expression).parse();
+
+            double operation = builder.build().eval();
+
+            embed.setTitle("Expression: " + expression, null)
+                    .setDescription("Reverse Polish: " + builder.toString())
+                    .addField("Answer", operation + "", true);
+
+            System.out.println("Expression: " + expression + "\nReverse Polish: " + builder.toString() + "\nAnswer: " + operation);
+            return embed;
+        }
+
+        public EmbedBuilder compareExpression(String expression) {
+            EmbedBuilder embed = new EmbedBuilder();
+            ComparisonBuilder comparison = new ComparisonBuilder(expression).parse().build();
+            embed.setTitle("Comparison: " + expression, null)
+                .setDescription(String.valueOf(comparison.eval()));
             return embed;
         }
     }
