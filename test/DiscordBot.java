@@ -53,7 +53,7 @@ public class DiscordBot
 
             if(message.startsWith(",") && message.length() > 1) {
                 message = message.substring(1);
-                if (message.startsWith("howtomath")) {
+                if (message.startsWith("help")) {
                     event.getChannel().sendMessage(howToMath().build()).queue();
                 } else {
 

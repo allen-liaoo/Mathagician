@@ -30,7 +30,7 @@ public class SimpleTest {
                 OperationBuilder builder = new OperationBuilder(input).parse();
                 double result = builder.build().eval();
 
-                System.out.println("Input: " + "\nCalculation Result: " + result);
+                System.out.println("Input: " + input + "\nCalculation Result: " + result);
 
             }
         }

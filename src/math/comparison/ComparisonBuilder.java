@@ -76,12 +76,7 @@ public class ComparisonBuilder {
             if (matcher.find()) {
 
                 comparator = operators.get(matcher.group());
-                System.out.println(buildRegex());
-                System.out.println(matcher.start());
-                System.out.println(comparator.getSection());
                 String[] operations = comparison.split(buildRegex(), 2);
-
-                Arrays.stream(operations).forEach(op -> System.out.println("Split: "+op));
 
                 /* Parsing String Expression (Default Constructor) */
                 if (operations.length != 2) {
