@@ -80,25 +80,12 @@ public class Operation {
         }
     }
 
-    private Operand evalOp() {
+    private Operand evalOperand() {
         return new Operand(eval());
     }
 
     public String getOperation() {
         return operation;
     }
-
-    /* Trace:
-        System.out.println(opargs.get(1).getNumber()+" " +op.getSection()+" "+opargs.get(0).getNumber()+" = "+operands.peek().getNumber());
-        System.out.print("\nQueue: ");
-        for(Section s : sections) {
-            System.out.print(s.getSection()+" ");
-        }
-        System.out.print("\nStack: ");
-        for(Operand d : operands) {
-            System.out.print(d.getNumber()+" ");
-        }
-        System.out.println();
-     */
 
 }

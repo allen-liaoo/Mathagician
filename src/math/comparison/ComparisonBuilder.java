@@ -25,10 +25,6 @@ public class ComparisonBuilder {
     private Operation operation_left;
     private Operation operation_right;
 
-    /* Operands */
-    private Operand operand_left;
-    private Operand operand_right;
-
     /* Resources */
     private HashMap<String, Comparator> operators;
     private ComparisonDefaultFactory defaultFactory = new ComparisonDefaultFactory();
@@ -94,26 +90,11 @@ public class ComparisonBuilder {
     }
 
     /**
-     * Build the left and right operands from a operation
-     * @return ComparisonBuilder for chaining
+     * Build the Comparison object
+     * @return Comparison for evaluating the comparison expression
      */
-    public ComparisonBuilder build() {
-        if (operation_left != null) {
-            operand_left = new Operand(operation_left.eval());
-        }
-        if (operation_right != null) {
-            operand_right = new Operand(operation_right.eval());
-        }
-        return this;
-    }
-
-    /**
-     * Evaluate the expression
-     * @return the boolean value compared by the comparator
-     */
-    public boolean eval() {
-        if (comparator == null) throw new IllegalArgumentException("Unknown Comparison Operation.");
-        return comparator.compare(operand_left, operand_right);
+    public Comparison build() {
+        return new Comparison(operation_right, comparator, operation_left);
     }
 
     /**

@@ -5,18 +5,22 @@ Math Operation Evaluator and Calculator base on Shunting-yard algorithm. <br />
 - Number type: 
   - Integer
   - Double
-- Operator: 
+- Operator:
   - Basic: +, -, *, /
   - Advance: %, ^, !
   - Comparison: =, <, <=, >, >=, !=
 - Notation: 
   - Custom Parenthesis (Default: `()`)
+  - Custom Argument Separator (Default: `,`) 
 - Constant: 
   - pi or π
   - e
   - φ
 - Function: 
   - Trigonometry: sin, cos, tan, csc, sec, cot
+- Builder:
+  - OperationBuilder: Building an Operation object to evaluate.
+  - ComparisonBuilder: Building a Comparison object to compare two operations.
   
 ### Operation Examples
 - Usage (Calculation)

@@ -1,3 +1,4 @@
+import math.comparison.Comparison;
 import math.comparison.ComparisonBuilder;
 import math.operation.Operation;
 import net.dv8tion.jda.core.AccountType;
@@ -16,6 +17,8 @@ import math.Operand;
 import math.operation.entities.Operator;
 
 import javax.security.auth.login.LoginException;
+import java.awt.*;
+import java.util.Random;
 
 /**
  * A simple discord bot for testing Mathagician
@@ -36,7 +39,7 @@ public class DiscordBot
                     .setEnableShutdownHook(true)
                     .buildBlocking();
 
-            jda.getPresence().setGame(Game.of("Math Magicians - ,howtomath"));
+            jda.getPresence().setGame(Game.of(",help Math Magicians"));
 
         } catch (LoginException | IllegalArgumentException | InterruptedException | RateLimitedException e) {
             e.printStackTrace();
@@ -90,15 +93,18 @@ public class DiscordBot
             }
 
             EmbedBuilder embed = new EmbedBuilder()
-                .addField("Operators", operators, false)
-                .addField("Constants", constants, false)
-                .addField("Functions", functions, false)
-                .addField("Example", "Prefix: **,**\n,sin(30)*2 gives 0.499999", false);
+                .setDescription("Prefix: **,**\n").setColor(randomColor())
+                .addField("Operators", operators, true)
+                .addField("Constants", constants, true)
+                .addField("Functions", functions, true)
+                .addField("Operation/Calculation", "`sin(30)*2` returns `0.499999`", true)
+                .addField("Comparison", "`,compare sin(30)>cos(30)` returns `true`", true)
+                .setFooter("This little math bot is written by Ayylien using Shunting Yard Algorithm", null);
             return embed;
         }
 
         public EmbedBuilder calculateOperation(String expression) {
-            EmbedBuilder embed = new EmbedBuilder();
+            EmbedBuilder embed = new EmbedBuilder().setColor(randomColor());
             OperationBuilder builder = new OperationBuilder(expression).parse();
 
             double operation = builder.build().eval();
@@ -112,11 +118,19 @@ public class DiscordBot
         }
 
         public EmbedBuilder compareExpression(String expression) {
-            EmbedBuilder embed = new EmbedBuilder();
-            ComparisonBuilder comparison = new ComparisonBuilder(expression).parse().build();
+            EmbedBuilder embed = new EmbedBuilder().setColor(randomColor());
+            Comparison comparison = new ComparisonBuilder(expression).parse().build();
             embed.setTitle("Comparison: " + expression, null)
                 .setDescription(String.valueOf(comparison.eval()));
             return embed;
+        }
+
+        public Color randomColor() {
+            Random colorpicker = new Random();
+            int red = colorpicker.nextInt(255) + 1;
+            int green = colorpicker.nextInt(255) + 1;
+            int blue = colorpicker.nextInt(255) + 1;
+            return new Color(red, green, blue);
         }
     }
 }

@@ -1,3 +1,4 @@
+import math.comparison.Comparison;
 import math.comparison.ComparisonBuilder;
 import math.operation.OperationBuilder;
 
@@ -20,8 +21,8 @@ public class SimpleTest {
 
                 String compare = input.replaceFirst("compare ", "");
 
-                ComparisonBuilder comparison = new ComparisonBuilder(compare).parse().build();
-                boolean result = comparison.eval();
+                ComparisonBuilder comparison = new ComparisonBuilder(compare).parse();
+                boolean result = comparison.build().eval();
 
                 System.out.println("Input: " + compare + "\nComparison Result: " + result);
 
